@@ -22,13 +22,23 @@
 
 ## Objective
 
-Build and validate a PingDirectory-based LDAP identity store that will
-serve as the identity source for the Cascade Internal Portal IAM
+This lab focuses on verifying and building out a PingDirectory-based
+LDAP identity store — a Directory Information Tree (DIT) for a
+fictitious organization, CyberCorp (`dc=cybercorp,dc=local`) — that
+will serve as the identity source for the Cascade Internal Portal IAM
 architecture.
 
+The tree includes organizational units for people, groups, and service
+accounts; sample user identities; sample groups; and a dedicated
+service account that PingFederate can use to perform LDAP-based user
+lookups. Every configuration change is verified independently with
+`ldapsearch`, and the PingFederate service account is granted scoped
+read access to the People branch via an Access Control Instruction
+(ACI).
+
 This lab focuses exclusively on PingDirectory and LDAP fundamentals.
-PingFederate, SAML, OIDC, PingAccess, and MFA are outside the scope of
-this lab.
+PingFederate, SAML, OIDC, PingAccess, and MFA are covered in later
+labs.
 
 ---
 
@@ -36,13 +46,13 @@ this lab.
 
 ```mermaid
 flowchart TD
-    PD[("PingDirectory")] --> People["People"]
-    PD --> Groups["Groups"]
-    PD --> SA["Service Accounts"]
-    People --> Users["Users"]
-    Groups --> AppGroups["Application Groups"]
-    SA --> Services["Services"]
+    Base[("dc=cybercorp,dc=local")] --> People["ou=People<br/>Alice Smith, Bob Johnson"]
+    Base --> Groups["ou=Groups<br/>IT-Users, Security-Users,<br/>IT-Admins, Security-Admins,<br/>App/Database/Monitoring-ServiceAccounts"]
+    Base --> SA["ou=ServiceAccounts<br/>svc-pingfederate, svc-app01,<br/>svc-database, svc-monitoring"]
 ```
+
+PingFederate will bind as `svc-pingfederate` and search the People
+branch to authenticate users such as Alice Smith.
 
 ---
 
