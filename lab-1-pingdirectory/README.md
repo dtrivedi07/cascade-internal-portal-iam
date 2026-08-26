@@ -1,30 +1,10 @@
 # Lab 1 - PingDirectory
 
-**Status:** In Progress
-
-## Contents
-
-- [Objective](#objective)
-- [Architecture](#architecture)
-- [Topics](#topics)
-- [Prerequisites](#prerequisites)
-- [Concepts](#concepts)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Commands](#commands)
-- [Testing](#testing)
-- [Troubleshooting](#troubleshooting)
-- [Security Considerations](#security-considerations)
-- [Screenshots and Evidence](#screenshots-and-evidence)
-- [Lessons Learned](#lessons-learned)
-
----
-
 ## Objective
 
 This lab focuses on verifying and building out a PingDirectory-based
-LDAP identity store — a Directory Information Tree (DIT) for a
-fictitious organization, CyberCorp (`dc=cybercorp,dc=local`) — that
+LDAP identity store: a Directory Information Tree (DIT) for a
+fictitious organization, CyberCorp (`dc=cybercorp,dc=local`), that
 will serve as the identity source for the Cascade Internal Portal IAM
 architecture.
 
@@ -40,8 +20,6 @@ This lab focuses exclusively on PingDirectory and LDAP fundamentals.
 PingFederate, SAML, OIDC, PingAccess, and MFA are covered in later
 labs.
 
----
-
 ## Architecture
 
 ```mermaid
@@ -53,8 +31,6 @@ flowchart TD
 
 PingFederate will bind as `svc-pingfederate` and search the People
 branch to authenticate users such as Alice Smith.
-
----
 
 ## Topics
 
@@ -78,48 +54,10 @@ branch to authenticate users such as Alice Smith.
 - LDIF
 - Directory verification
 
----
+## Learning Outcomes
 
-## Prerequisites
-
-_To be documented._
-
-## Concepts
-
-_To be documented._
-
-## Installation
-
-_To be documented._
-
-## Configuration
-
-_To be documented._
-
-## Commands
-
-_To be documented._
-
-## Testing
-
-_To be documented._
-
-## Troubleshooting
-
-_To be documented._
-
-## Security Considerations
-
-_To be documented._
-
-## Screenshots and Evidence
-
-_To be documented._
-
-## Lessons Learned
-
-_To be documented._
-
----
-
-See the root [README.md](../README.md) for the full project overview.
+- Understand how a PingDirectory Directory Information Tree (DIT) is structured with organizational units, users, groups, and service accounts.
+- Create and verify directory entries using `dsconfig`, `ldapmodify`, and `ldapsearch`.
+- Understand the difference between LDAP object classes, attributes, and schema constraints.
+- Configure and scope an Access Control Instruction (ACI) to grant a service account least-privilege read access.
+- Distinguish between authentication (binding) and authorization (what a bound identity is allowed to see).
