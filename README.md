@@ -7,7 +7,6 @@
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 ![Stack](https://img.shields.io/badge/stack-PingDirectory%20%7C%20PingFederate%20%7C%20PingAccess-blue)
 ![Protocols](https://img.shields.io/badge/protocols-SAML%20%7C%20OIDC%20%7C%20LDAP-informational)
-![Purpose](https://img.shields.io/badge/purpose-portfolio%20%2F%20education-lightgrey)
 
 </div>
 
