@@ -2,10 +2,49 @@
 
 **Status:** In Progress
 
+## Contents
+
+- [Objective](#objective)
+- [Architecture](#architecture)
+- [Topics](#topics)
+- [Prerequisites](#prerequisites)
+- [Concepts](#concepts)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Commands](#commands)
+- [Testing](#testing)
+- [Troubleshooting](#troubleshooting)
+- [Security Considerations](#security-considerations)
+- [Screenshots and Evidence](#screenshots-and-evidence)
+- [Lessons Learned](#lessons-learned)
+
+---
+
 ## Objective
 
-Build and understand the LDAP-based identity store that will be used
-by PingFederate.
+Build and validate a PingDirectory-based LDAP identity store that will
+serve as the identity source for the Cascade Internal Portal IAM
+architecture.
+
+This lab focuses exclusively on PingDirectory and LDAP fundamentals.
+PingFederate, SAML, OIDC, PingAccess, and MFA are outside the scope of
+this lab.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    PD[("PingDirectory")] --> People["People"]
+    PD --> Groups["Groups"]
+    PD --> SA["Service Accounts"]
+    People --> Users["Users"]
+    Groups --> AppGroups["Application Groups"]
+    SA --> Services["Services"]
+```
+
+---
 
 ## Topics
 
@@ -29,22 +68,48 @@ by PingFederate.
 - LDIF
 - Directory verification
 
-## Contents
+---
 
-1. Objective
-2. Architecture
-3. Prerequisites
-4. Concepts
-5. Installation
-6. Configuration
-7. Commands
-8. Testing
-9. Troubleshooting
-10. Security considerations
-11. Screenshots and evidence
-12. Lessons learned
+## Prerequisites
 
-Documentation, configuration, screenshots, commands, and testing
-evidence for this lab will be added here as the work progresses.
+_To be documented._
+
+## Concepts
+
+_To be documented._
+
+## Installation
+
+_To be documented._
+
+## Configuration
+
+_To be documented._
+
+## Commands
+
+_To be documented._
+
+## Testing
+
+_To be documented._
+
+## Troubleshooting
+
+_To be documented._
+
+## Security Considerations
+
+_To be documented._
+
+## Screenshots and Evidence
+
+_To be documented._
+
+## Lessons Learned
+
+_To be documented._
+
+---
 
 See the root [README.md](../README.md) for the full project overview.
