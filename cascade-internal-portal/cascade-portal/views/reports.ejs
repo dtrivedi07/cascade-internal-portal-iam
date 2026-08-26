@@ -1,0 +1,27 @@
+<%- include('partials/head') %>
+<%- include('partials/shell-open', { user, active: 'reports' }) %>
+  <h1>Reports</h1>
+  <p class="subtitle">Mock data — the point is that this table only rendered because SSO + MFA both passed.</p>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Report</th><th>Owner</th><th>Status</th><th>Updated</th></tr>
+      </thead>
+      <tbody>
+        <% reports.forEach(function(r) { %>
+          <tr>
+            <td><%= r.name %></td>
+            <td><%= r.owner %></td>
+            <td>
+              <% if (r.status === 'Complete') { %><span class="badge success"><%= r.status %></span>
+              <% } else if (r.status === 'In progress') { %><span class="badge warning"><%= r.status %></span>
+              <% } else { %><span class="badge neutral"><%= r.status %></span><% } %>
+            </td>
+            <td><%= r.updated %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<%- include('partials/shell-close') %>

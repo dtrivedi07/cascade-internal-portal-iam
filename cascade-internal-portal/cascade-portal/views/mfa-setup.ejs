@@ -1,0 +1,27 @@
+<%- include('partials/head') %>
+<div class="auth-shell">
+  <div class="auth-brand">
+    <div class="mark"></div>
+    <h1>One more step</h1>
+    <p>PingFederate confirmed your identity. This app additionally requires a TOTP authenticator app before granting access — enrollment happens once per user.</p>
+  </div>
+  <div class="auth-panel">
+    <h2>Set up multi-factor authentication</h2>
+    <p class="subtitle">Scan with Google Authenticator, Microsoft Authenticator, 1Password, or any TOTP app.</p>
+
+    <% if (error) { %><div class="error-box"><%= error %></div><% } %>
+
+    <div class="qr-box">
+      <img src="<%= qrDataUrl %>" alt="Scan this QR code in your authenticator app">
+      <div><small>Can't scan? Enter manually:</small></div>
+      <div class="manual-secret"><%= manualSecret %></div>
+    </div>
+
+    <form method="POST" action="/mfa/setup">
+      <input class="otp-input" type="text" name="token" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autofocus required>
+      <button class="btn" type="submit">Confirm and continue</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

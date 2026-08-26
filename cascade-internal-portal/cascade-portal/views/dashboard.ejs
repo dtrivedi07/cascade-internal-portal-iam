@@ -1,0 +1,36 @@
+<%- include('partials/head') %>
+<%- include('partials/shell-open', { user, active: 'dashboard' }) %>
+  <h1>Welcome, <%= user.displayName || user.email %></h1>
+  <p class="subtitle">Signed in via <%= user.protocol.toUpperCase() %> · MFA verified this session</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Session</h2>
+      <p style="margin:0 0 6px;"><span class="badge success">Active</span></p>
+      <p style="color:var(--muted); font-size:13px; margin:0;">Established through PingFederate, expires after 8 hours of inactivity.</p>
+    </div>
+    <div class="card">
+      <h2>Identity source</h2>
+      <p style="margin:0 0 6px;"><span class="badge neutral"><%= user.protocol === 'saml' ? 'SAML Assertion' : 'OIDC ID Token' %></span></p>
+      <p style="color:var(--muted); font-size:13px; margin:0;">Full claim set on the <a href="/profile">Profile</a> page.</p>
+    </div>
+    <div class="card">
+      <h2>Access level</h2>
+      <p style="margin:0 0 6px;">
+        <% if ((user.groups||[]).some(g => String(g).toLowerCase().includes('admin'))) { %>
+          <span class="badge warning">Admin</span>
+        <% } else { %>
+          <span class="badge neutral">Standard user</span>
+        <% } %>
+      </p>
+      <p style="color:var(--muted); font-size:13px; margin:0;">Derived from the groups claim PingFederate released.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What this app is for</h2>
+    <p style="color:var(--muted); font-size:14px;">
+      This is a working test harness for the PingFederate SSO integration: it exercises a real SP-initiated SAML flow and a real OIDC authorization-code flow against PingFederate, then layers an app-level TOTP step-up on top before granting access. Use <a href="/reports">Reports</a> to see protected data render, <a href="/profile">Profile</a> to inspect exactly what claims came back from the IdP, and <a href="/admin">Admin</a> to see authorization (not just authentication) enforced from a groups claim.
+    </p>
+  </div>
+<%- include('partials/shell-close') %>

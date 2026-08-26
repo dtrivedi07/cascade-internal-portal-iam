@@ -1,0 +1,142 @@
+const express = require('express');
+const passport = require('passport');
+const router = express.Router();
+
+router.get('/login', (req, res) => {
+  if (req.isAuthenticated && req.isAuthenticated()) return res.redirect('/dashboard');
+  res.render('login', {
+    title: 'Log in',
+    defaultProtocol: process.env.DEFAULT_PROTOCOL || 'saml',
+    localLoginEnabled: process.env.LOCAL_LOGIN_ENABLED === 'true',
+    flash: req.flash ? req.flash('error') : []
+  });
+});
+
+// ── Local break-glass login ────────────────────────────────────────
+
+router.post('/auth/local', (req, res, next) => {
+  console.log('[LOCAL] POST received');
+  console.log('[LOCAL] email:', req.body.email);
+  console.log('[LOCAL] password received:', !!req.body.password);
+
+  if (process.env.LOCAL_LOGIN_ENABLED !== 'true') {
+    console.log('[LOCAL] Login disabled');
+
+    return res.status(404).render('error', {
+      title: 'Not found',
+      message: 'Local login is disabled.',
+      user: null
+    });
+  }
+
+  console.log('[LOCAL] Starting passport.authenticate');
+
+  passport.authenticate('local', (err, user, info) => {
+    console.log('[LOCAL] Passport callback reached');
+    console.log('[LOCAL] err:', err);
+    console.log('[LOCAL] user:', user ? user.email : null);
+    console.log('[LOCAL] info:', info);
+
+    if (err) {
+      console.log('[LOCAL] Passport error');
+      return next(err);
+    }
+
+    if (!user) {
+      console.log('[LOCAL] Authentication failed');
+
+      req.flash(
+        'error',
+        (info && info.message) || 'Invalid email or password.'
+      );
+
+      return res.redirect('/login');
+    }
+
+    console.log('[LOCAL] Authentication successful');
+    console.log('[LOCAL] Calling req.logIn');
+
+    req.logIn(user, (loginErr) => {
+      console.log('[LOCAL] req.logIn callback reached');
+      console.log('[LOCAL] loginErr:', loginErr);
+
+      if (loginErr) {
+        return next(loginErr);
+      }
+
+      console.log('[LOCAL] Setting MFA session');
+
+      req.session.mfaVerified = true;
+
+      console.log('[LOCAL] Redirecting to dashboard');
+
+      return res.redirect('/dashboard');
+    });
+  })(req, res, next);
+});
+
+
+// ── SAML ────────────────────────────────────────────────────────────
+router.get('/auth/saml', passport.authenticate('saml'));
+
+router.post(
+  process.env.SAML_CALLBACK_PATH || '/auth/saml/callback',
+  express.urlencoded({ extended: false }),
+  passport.authenticate('saml', { failureRedirect: '/login', failureFlash: true }),
+  (req, res) => {
+    req.session.mfaVerified = false; // fresh SSO login always re-requires MFA
+    res.redirect('/mfa/verify');
+  }
+);
+
+router.get('/auth/saml/logout', (req, res, next) => {
+  if (!req.user || req.user.protocol !== 'saml') return res.redirect('/logged-out');
+  req.logout((err) => {
+    if (err) return next(err);
+    // Redirect the browser to PingFederate's SLO endpoint so the IdP
+    // session is torn down too, not just this app's local session.
+    passport._strategy('saml').logout(req, (err2, url) => {
+      if (err2) return next(err2);
+      req.session.destroy(() => res.redirect(url));
+    });
+  });
+});
+
+// ── OIDC ─────────────────────────────────────────────────────────────
+router.get('/auth/oidc', passport.authenticate('oidc'));
+
+router.get(
+  process.env.OIDC_CALLBACK_PATH || '/auth/oidc/callback',
+  passport.authenticate('oidc', { failureRedirect: '/login', failureFlash: true }),
+  (req, res) => {
+    req.session.mfaVerified = false;
+    res.redirect('/mfa/verify');
+  }
+);
+
+router.get('/auth/oidc/logout', (req, res) => {
+  const endSession = process.env.OIDC_END_SESSION_URL;
+  req.logout(() => {
+    req.session.destroy(() => {
+      if (endSession) {
+        return res.redirect(
+          `${endSession}?client_id=${encodeURIComponent(process.env.OIDC_CLIENT_ID)}&post_logout_redirect_uri=${encodeURIComponent(process.env.APP_BASE_URL + '/logged-out')}`
+        );
+      }
+      res.redirect('/logged-out');
+    });
+  });
+});
+
+// ── Local logout (no IdP session to tear down) ──────────────────────
+router.get('/auth/local/logout', (req, res) => {
+  req.logout(() => {
+    req.session.destroy(() => res.redirect('/logged-out'));
+  });
+});
+
+router.get('/logged-out', (req, res) => {
+  res.render('logged-out', { title: 'Signed out' });
+});
+
+module.exports = router;

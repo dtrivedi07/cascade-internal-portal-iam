@@ -1,0 +1,48 @@
+<%- include('partials/head') %>
+<div class="auth-shell">
+  <div class="auth-brand">
+    <div class="mark"></div>
+    <h1>Cascade Internal Portal</h1>
+    <p>Internal application access is federated through PingFederate. Authenticate once, and your identity, group membership, and MFA status carry into every tool below.</p>
+    <div class="flow">
+      <div>&gt; browser redirects to PingFederate</div>
+      <div>&gt; PingFederate authenticates against directory</div>
+      <div>&gt; signed assertion / token returned</div>
+      <div>&gt; app verifies + starts session</div>
+      <div>&gt; step-up TOTP required before access</div>
+    </div>
+  </div>
+  <div class="auth-panel">
+    <h2>Sign in</h2>
+    <p class="subtitle">Choose how this app should federate with PingFederate.</p>
+
+    <% if (flash && flash.length) { %>
+      <div class="error-box"><%= flash[0] %></div>
+    <% } %>
+
+    <a class="protocol-option" href="/auth/saml">
+      <div class="name">SAML 2.0 <span class="tag">SP-initiated</span></div>
+      <div class="desc">Redirects to PingFederate's SAML SSO endpoint. Best match for the SiteMinder-style architecture.</div>
+    </a>
+    <a class="protocol-option" href="/auth/oidc">
+      <div class="name">OpenID Connect <span class="tag">Auth code flow</span></div>
+      <div class="desc">Redirects to PingFederate's OAuth/OIDC authorization endpoint and exchanges a code for tokens.</div>
+    </a>
+
+    <p class="subtitle" style="margin-top:24px;">Every login — either protocol — requires a TOTP code on top of PingFederate's own authentication before the dashboard unlocks.</p>
+
+    <% if (localLoginEnabled) { %>
+      <details class="local-login">
+        <summary>Use local break-glass login instead</summary>
+        <p class="subtitle" style="margin:10px 0;">Bypasses PingFederate entirely — for testing when the IdP is unavailable, or when you just want in without a federation round trip. Still requires MFA. Not meant to be how real users sign in.</p>
+        <form method="POST" action="/auth/local">
+          <input class="text-input" type="email" name="email" placeholder="Email" required autocomplete="username">
+          <input class="text-input" type="password" name="password" placeholder="Password" required autocomplete="current-password" style="margin-top:10px;">
+          <button class="btn secondary" type="submit" style="margin-top:14px;">Log in locally</button>
+        </form>
+      </details>
+    <% } %>
+  </div>
+</div>
+</body>
+</html>

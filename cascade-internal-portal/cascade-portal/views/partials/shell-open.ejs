@@ -1,0 +1,22 @@
+<nav class="topnav">
+  <div class="brand"><span class="mark"></span> Cascade Internal Portal</div>
+  <div class="user">
+    <span><%= user.displayName || user.email %></span>
+    <a href="/profile">Profile</a>
+    <a href="<%= { saml: '/auth/saml/logout', oidc: '/auth/oidc/logout', local: '/auth/local/logout' }[user.protocol] %>">Log out</a>
+  </div>
+</nav>
+<div class="trust-strip">
+  <span class="item"><span class="dot <%= user.protocol === 'local' ? 'pending' : 'on' %>"></span> <%= user.protocol === 'local' ? 'Local login (PingFederate bypassed)' : 'SSO: ' + user.protocol.toUpperCase() + ' via PingFederate' %></span>
+  <span class="item"><span class="dot on"></span> MFA: verified this session</span>
+  <span class="item"><span class="dot on"></span> Identity: <%= user.email %></span>
+</div>
+<div class="shell">
+  <div class="sidebar">
+    <a href="/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+    <a href="/reports" class="<%= active === 'reports' ? 'active' : '' %>">Reports</a>
+    <a href="/profile" class="<%= active === 'profile' ? 'active' : '' %>">Profile &amp; claims</a>
+    <div class="section-label">Restricted</div>
+    <a href="/admin" class="<%= active === 'admin' ? 'active' : '' %>">Admin</a>
+  </div>
+  <div class="main">

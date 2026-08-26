@@ -1,0 +1,29 @@
+<%- include('partials/head') %>
+<%- include('partials/shell-open', { user, active: 'profile' }) %>
+  <h1>Profile &amp; claims</h1>
+  <p class="subtitle">Exactly what PingFederate released for this session — useful when you're debugging attribute mappings.</p>
+
+  <div class="card">
+    <h2>Normalized identity</h2>
+    <table class="claims-table">
+      <tr><td>protocol</td><td><%= user.protocol %></td></tr>
+      <tr><td>id / subject</td><td><%= user.id %></td></tr>
+      <tr><td>email</td><td><%= user.email %></td></tr>
+      <tr><td>displayName</td><td><%= user.displayName %></td></tr>
+      <tr><td>groups</td><td><%= JSON.stringify(user.groups || []) %></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Raw claims from PingFederate</h2>
+    <p style="color:var(--muted); font-size:13px; margin-top:-6px;">
+      <%= user.protocol === 'saml' ? 'Raw SAML assertion attributes as parsed by the SP library.' : 'Raw ID token / userinfo claims.' %>
+    </p>
+    <table class="claims-table">
+      <% const claims = user.rawClaims || {}; %>
+      <% Object.keys(claims).forEach(function(key) { %>
+        <tr><td><%= key %></td><td><%= typeof claims[key] === 'object' ? JSON.stringify(claims[key]) : String(claims[key]) %></td></tr>
+      <% }) %>
+    </table>
+  </div>
+<%- include('partials/shell-close') %>

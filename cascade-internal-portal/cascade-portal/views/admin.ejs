@@ -1,0 +1,13 @@
+<%- include('partials/head') %>
+<%- include('partials/shell-open', { user, active: 'admin' }) %>
+  <h1>Admin</h1>
+  <p class="subtitle">Reached only because your groups claim contained an admin role — try it with a non-admin user to see it block.</p>
+
+  <div class="card">
+    <h2>MFA enrollment (local demo store)</h2>
+    <p style="color:var(--muted); font-size:13px;">In a real deployment this would read from PingFederate/PingOne, not a local file — see README.</p>
+    <form method="POST" action="/admin/reset-mfa" style="display:inline;">
+      <button class="btn secondary" type="submit" style="width:auto; padding:8px 14px;">Reset MFA enrollment for this account</button>
+    </form>
+  </div>
+<%- include('partials/shell-close') %>

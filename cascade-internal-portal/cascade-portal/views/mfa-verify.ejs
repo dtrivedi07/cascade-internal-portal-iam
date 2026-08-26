@@ -1,0 +1,21 @@
+<%- include('partials/head') %>
+<div class="auth-shell">
+  <div class="auth-brand">
+    <div class="mark"></div>
+    <h1>Verify it's you</h1>
+    <p>Your SSO session with PingFederate is valid, but this app requires a fresh TOTP code every login before it trusts the session.</p>
+  </div>
+  <div class="auth-panel">
+    <h2>Enter your 6-digit code</h2>
+    <p class="subtitle">From the authenticator app you set up previously.</p>
+
+    <% if (error) { %><div class="error-box"><%= error %></div><% } %>
+
+    <form method="POST" action="/mfa/verify">
+      <input class="otp-input" type="text" name="token" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autofocus required>
+      <button class="btn" type="submit">Verify</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
