@@ -368,7 +368,7 @@ this architecture.
 | Lab   | Technology                      | Status         |
 | ----- | -------------------------------- | -------------- |
 | Lab 1 | PingDirectory                   | ✅ Complete    |
-| Lab 2 | PingFederate + LDAP             | ⬜ Not Started |
+| Lab 2 | PingFederate + LDAP             | ✅ Complete    |
 | Lab 3 | SAML SSO                        | ⬜ Not Started |
 | Lab 4 | SAML Attributes & Authorization | ⬜ Not Started |
 | Lab 5 | OpenID Connect                  | ⬜ Not Started |
