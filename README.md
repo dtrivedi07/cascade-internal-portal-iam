@@ -1,4 +1,39 @@
-# Cascade Internal Portal - Enterprise IAM Lab
+<div align="center">
+
+# 🔐 Cascade Internal Portal — Enterprise IAM Lab
+
+**A hands-on Identity and Access Management lab built around a custom internal web application and the Ping Identity platform.**
+
+![Status](https://img.shields.io/badge/status-in%20progress-yellow)
+![Stack](https://img.shields.io/badge/stack-PingDirectory%20%7C%20PingFederate%20%7C%20PingAccess-blue)
+![Protocols](https://img.shields.io/badge/protocols-SAML%20%7C%20OIDC%20%7C%20LDAP-informational)
+![Purpose](https://img.shields.io/badge/purpose-portfolio%20%2F%20education-lightgrey)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Target Architecture](#target-architecture)
+- [Application](#application)
+- [Labs](#labs)
+  - [Lab 1: PingDirectory](#lab-1-pingdirectory)
+  - [Lab 2: PingFederate and PingDirectory](#lab-2-pingfederate-and-pingdirectory)
+  - [Lab 3: SAML Single Sign-On](#lab-3-saml-single-sign-on)
+  - [Lab 4: SAML Attributes and Authorization](#lab-4-saml-attributes-and-authorization)
+  - [Lab 5: OpenID Connect](#lab-5-openid-connect)
+  - [Lab 6: Production-Level IAM Enhancements](#lab-6-production-level-iam-enhancements)
+  - [Lab 7: PingAccess](#lab-7-pingaccess)
+- [Final Architecture](#final-architecture)
+- [Repository Structure](#repository-structure)
+- [Lab Documentation Approach](#lab-documentation-approach)
+- [Project Goals](#project-goals)
+- [Status](#status)
+- [Disclaimer](#disclaimer)
+
+---
 
 A hands-on Identity and Access Management (IAM) project built around a
 custom internal web application and the Ping Identity platform.
@@ -37,29 +72,10 @@ architecture.
 
 The initial architecture will be:
 
-```text
-                         Cascade Internal Portal
-                                  |
-                         SAML / OIDC
-                                  |
-                                  v
-                         +----------------+
-                         | PingFederate   |
-                         |                |
-                         | Authentication |
-                         | Federation     |
-                         +-------+--------+
-                                 |
-                                LDAP
-                                 |
-                                 v
-                         +----------------+
-                         | PingDirectory  |
-                         |                |
-                         | Users          |
-                         | Groups         |
-                         | Attributes     |
-                         +----------------+
+```mermaid
+flowchart TD
+    Portal["Cascade Internal Portal"] -->|"SAML / OIDC"| PF["PingFederate<br/>Authentication and Federation"]
+    PF -->|"LDAP"| PD[("PingDirectory<br/>Users, Groups, Attributes")]
 ```
 
 PingAccess will be introduced later as an access management and policy
@@ -67,25 +83,11 @@ enforcement layer.
 
 The final architecture will evolve toward:
 
-```text
-                              User
-                               |
-                               v
-                        +-------------+
-                        | PingAccess  |
-                        +------+------+
-                               |
-                               v
-                        +-------------+
-                        |PingFederate |
-                        +------+------+
-                               |
-                              LDAP
-                               |
-                               v
-                        +-------------+
-                        |PingDirectory|
-                        +-------------+
+```mermaid
+flowchart TD
+    User["User"] --> PA["PingAccess"]
+    PA --> PF["PingFederate"]
+    PF -->|"LDAP"| PD[("PingDirectory")]
 ```
 
 ---
@@ -115,7 +117,7 @@ authorization and production-level IAM enhancements.
 
 The project is divided into progressive labs.
 
-## Lab 1 - PingDirectory
+## Lab 1: PingDirectory
 
 ### Objective
 
@@ -150,7 +152,7 @@ later be consumed by PingFederate.
 
 ---
 
-## Lab 2 - PingFederate + PingDirectory
+## Lab 2: PingFederate and PingDirectory
 
 ### Objective
 
@@ -174,7 +176,7 @@ Topics include:
 
 ---
 
-## Lab 3 - SAML Single Sign-On
+## Lab 3: SAML Single Sign-On
 
 ### Objective
 
@@ -183,19 +185,11 @@ and PingFederate.
 
 Architecture:
 
-```text
-User
- |
- v
-Cascade Internal Portal
- |
- | SAML
- v
-PingFederate
- |
- | LDAP
- v
-PingDirectory
+```mermaid
+flowchart TD
+    User["User"] --> Portal["Cascade Internal Portal"]
+    Portal -->|"SAML"| PF["PingFederate"]
+    PF -->|"LDAP"| PD[("PingDirectory")]
 ```
 
 Topics include:
@@ -221,7 +215,7 @@ Portal.
 
 ---
 
-## Lab 4 - SAML Attributes & Authorization
+## Lab 4: SAML Attributes and Authorization
 
 ### Objective
 
@@ -230,20 +224,11 @@ attributes from PingDirectory through PingFederate to the application.
 
 Example:
 
-```text
-PingDirectory
-      |
-      | User attributes
-      | Group membership
-      v
-PingFederate
-      |
-      | SAML Claims
-      v
-Cascade Internal Portal
-      |
-      v
-Authorization
+```mermaid
+flowchart TD
+    PD[("PingDirectory")] -->|"User attributes and group membership"| PF["PingFederate"]
+    PF -->|"SAML claims"| Portal["Cascade Internal Portal"]
+    Portal --> Authz["Authorization decision"]
 ```
 
 Topics include:
@@ -263,16 +248,12 @@ Topics include:
 
 Example:
 
-```text
-cascade-users
-      |
-      +-- Alice
-      +-- Bob
-      +-- Charlie
-
-cascade-admins
-      |
-      +-- Charlie
+```mermaid
+flowchart TD
+    G1["cascade-users"] --> Alice["Alice"]
+    G1 --> Bob["Bob"]
+    G1 --> Charlie["Charlie"]
+    G2["cascade-admins"] --> Charlie
 ```
 
 The goal is to demonstrate how identity attributes can be used to
@@ -280,7 +261,7 @@ control access within an application.
 
 ---
 
-## Lab 5 - OpenID Connect
+## Lab 5: OpenID Connect
 
 ### Objective
 
@@ -314,7 +295,7 @@ it with the SAML implementation.
 
 ---
 
-## Lab 6 - Production-Level IAM Enhancements
+## Lab 6: Production-Level IAM Enhancements
 
 ### Objective
 
@@ -344,7 +325,7 @@ authentication and authorization architecture is working.
 
 ---
 
-## Lab 7 - PingAccess
+## Lab 7: PingAccess
 
 ### Objective
 
@@ -374,35 +355,12 @@ architecture rather than treating it as an isolated product.
 
 After completing the labs, the target architecture will resemble:
 
-```text
-                              User
-                               |
-                               v
-                       +---------------+
-                       |  PingAccess   |
-                       |               |
-                       | Access Policy |
-                       +-------+-------+
-                               |
-                               v
-                       +---------------+
-                       | PingFederate  |
-                       |               |
-                       | SAML / OIDC   |
-                       | Authentication|
-                       +-------+-------+
-                               |
-                              LDAP
-                               |
-                               v
-                       +---------------+
-                       | PingDirectory |
-                       |               |
-                       | Users         |
-                       | Groups        |
-                       | Attributes    |
-                       | Service Accts |
-                       +---------------+
+```mermaid
+flowchart TD
+    User["User"] --> PA["PingAccess<br/>Access Policy"]
+    PA --> PF["PingFederate<br/>SAML and OIDC Authentication"]
+    PF -->|"LDAP"| PD[("PingDirectory<br/>Users, Groups, Attributes, Service Accounts")]
+    Portal["Cascade Internal Portal"] -.->|"protected by"| PA
 ```
 
 The Cascade Internal Portal will serve as the application protected by
@@ -494,15 +452,15 @@ integrated enterprise-style IAM environment.
 
 # Status
 
-| Lab   | Technology                      | Status      |
-| ----- | -------------------------------- | ----------- |
-| Lab 1 | PingDirectory                   | In Progress |
-| Lab 2 | PingFederate + LDAP             | Not Started |
-| Lab 3 | SAML SSO                        | Not Started |
-| Lab 4 | SAML Attributes & Authorization | Not Started |
-| Lab 5 | OpenID Connect                  | Not Started |
-| Lab 6 | Production Hardening            | Not Started |
-| Lab 7 | PingAccess                      | Not Started |
+| Lab   | Technology                      | Status         |
+| ----- | -------------------------------- | -------------- |
+| Lab 1 | PingDirectory                   | 🚧 In Progress |
+| Lab 2 | PingFederate + LDAP             | ⬜ Not Started |
+| Lab 3 | SAML SSO                        | ⬜ Not Started |
+| Lab 4 | SAML Attributes & Authorization | ⬜ Not Started |
+| Lab 5 | OpenID Connect                  | ⬜ Not Started |
+| Lab 6 | Production Hardening            | ⬜ Not Started |
+| Lab 7 | PingAccess                      | ⬜ Not Started |
 
 ---
 
