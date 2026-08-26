@@ -1,7 +1,5 @@
 # Lab 2 - PingFederate + PingDirectory
 
-**Status:** Not Started
-
 ## Objective
 
 Connect PingFederate to the PingDirectory identity store and establish
@@ -21,21 +19,6 @@ the authentication foundation for the project.
 - Attribute retrieval
 - Authentication testing
 - Troubleshooting
-
-## Contents
-
-1. Objective
-2. Architecture
-3. Prerequisites
-4. Concepts
-5. Installation
-6. Configuration
-7. Commands
-8. Testing
-9. Troubleshooting
-10. Security considerations
-11. Screenshots and evidence
-12. Lessons learned
 
 Documentation, configuration, screenshots, commands, and testing
 evidence for this lab will be added here as the work progresses.
