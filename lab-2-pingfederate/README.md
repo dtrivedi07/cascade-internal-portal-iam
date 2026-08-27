@@ -20,6 +20,15 @@ the authentication foundation for the project.
 - Authentication testing
 - Troubleshooting
 
+## Learning Objectives
+
+- Configure PingFederate to use PingDirectory as an LDAP identity source.
+- Configure LDAP connection settings and bind credentials for a directory connection.
+- Configure a user search and LDAP search filters to locate identities during authentication.
+- Configure an IdP adapter and authentication policy for LDAP-based authentication.
+- Test end-to-end authentication and verify attribute retrieval from the directory.
+- Troubleshoot common LDAP connectivity and authentication issues.
+
 Documentation, configuration, screenshots, commands, and testing
 evidence for this lab will be added here as the work progresses.
 
