@@ -369,7 +369,7 @@ this architecture.
 | ----- | -------------------------------- | -------------- |
 | Lab 1 | PingDirectory                   | ✅ Complete    |
 | Lab 2 | PingFederate + LDAP             | ✅ Complete    |
-| Lab 3 | SAML SSO                        | ⬜ Not Started |
+| Lab 3 | SAML SSO                        | ✅ Complete    |
 | Lab 4 | SAML Attributes & Authorization | ⬜ Not Started |
 | Lab 5 | OpenID Connect                  | ⬜ Not Started |
 | Lab 6 | Production Hardening            | ⬜ Not Started |
