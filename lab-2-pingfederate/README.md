@@ -28,8 +28,3 @@ the authentication foundation for the project.
 - Configure an IdP adapter and authentication policy for LDAP-based authentication.
 - Test end-to-end authentication and verify attribute retrieval from the directory.
 - Troubleshoot common LDAP connectivity and authentication issues.
-
-Documentation, configuration, screenshots, commands, and testing
-evidence for this lab will be added here as the work progresses.
-
-See the root [README.md](../README.md) for the full project overview.
