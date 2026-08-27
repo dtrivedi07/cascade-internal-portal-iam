@@ -1,7 +1,5 @@
 # Lab 3 - SAML Single Sign-On
 
-**Status:** Not Started
-
 ## Objective
 
 Implement SAML-based Single Sign-On between the Cascade Internal Portal
@@ -25,22 +23,11 @@ and PingFederate.
 - Attribute fulfillment
 - SAML troubleshooting
 
-## Contents
+## Learning Outcomes
 
-1. Objective
-2. Architecture
-3. Prerequisites
-4. Concepts
-5. Installation
-6. Configuration
-7. Commands
-8. Testing
-9. Troubleshooting
-10. Security considerations
-11. Screenshots and evidence
-12. Lessons learned
-
-Documentation, configuration, screenshots, commands, and testing
-evidence for this lab will be added here as the work progresses.
-
-See the root [README.md](../README.md) for the full project overview.
+- Understand the roles of the Service Provider (SP) and Identity Provider (IdP) in a SAML browser SSO flow.
+- Configure an Entity ID, ACS URL, and exchange SAML metadata between the SP and IdP.
+- Trace a SAML authentication request and the resulting SAML assertion, including the NameID.
+- Configure and verify assertion signing using certificates.
+- Configure attribute contracts and attribute fulfillment to pass identity attributes in the assertion.
+- Troubleshoot common SAML SSO issues such as metadata mismatches, clock skew, and signature validation failures.
